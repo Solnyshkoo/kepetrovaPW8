@@ -7,7 +7,7 @@
 
 import Foundation
 import UIKit
-final class MovieCel: UITableViewCell {
+final class MovieCell: UITableViewCell {
     static let indentifier = "MovieCell"
 
     private lazy var title: UILabel = {

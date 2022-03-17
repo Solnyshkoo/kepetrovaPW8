@@ -13,7 +13,7 @@
 		5E79CD0C27E38B04009A6F77 /* kepetrovaPW8.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5E79CD0A27E38B04009A6F77 /* kepetrovaPW8.xcdatamodeld */; };
 		5E79CD0E27E38B06009A6F77 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5E79CD0D27E38B06009A6F77 /* Assets.xcassets */; };
 		5E79CD1127E38B06009A6F77 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5E79CD0F27E38B06009A6F77 /* LaunchScreen.storyboard */; };
-		5E79CD1E27E38E96009A6F77 /* MovieCel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E79CD1D27E38E96009A6F77 /* MovieCel.swift */; };
+		5E79CD1E27E38E96009A6F77 /* MovieCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E79CD1D27E38E96009A6F77 /* MovieCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,7 +25,7 @@
 		5E79CD0D27E38B06009A6F77 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5E79CD1027E38B06009A6F77 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5E79CD1227E38B06009A6F77 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5E79CD1D27E38E96009A6F77 /* MovieCel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCel.swift; sourceTree = "<group>"; };
+		5E79CD1D27E38E96009A6F77 /* MovieCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,7 +89,7 @@
 			isa = PBXGroup;
 			children = (
 				5E79CD0527E38B04009A6F77 /* MoviesViewController.swift */,
-				5E79CD1D27E38E96009A6F77 /* MovieCel.swift */,
+				5E79CD1D27E38E96009A6F77 /* MovieCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -180,7 +180,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5E79CD1E27E38E96009A6F77 /* MovieCel.swift in Sources */,
+				5E79CD1E27E38E96009A6F77 /* MovieCell.swift in Sources */,
 				5E79CD0627E38B04009A6F77 /* MoviesViewController.swift in Sources */,
 				5E79CD0C27E38B04009A6F77 /* kepetrovaPW8.xcdatamodeld in Sources */,
 				5E79CD0227E38B04009A6F77 /* AppDelegate.swift in Sources */,
