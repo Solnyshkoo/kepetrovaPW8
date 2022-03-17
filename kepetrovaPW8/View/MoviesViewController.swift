@@ -7,13 +7,13 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+final class MoviesViewController: UIViewController {
+    private var tableView = UITableView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        configureUI()
     }
 
-
+    private func configureUI() {}
 }
-
