@@ -60,7 +60,7 @@ extension MoviesViewModel: MoviesModuleViewOutput {
             self?.moviesService.loadMovies { [weak self] result in
                 switch result {
                 case .success(let movies):
-                    DispatchQueue.main.async {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                         self?.state = .success(movies)
                     }
                 case .failure(let error):

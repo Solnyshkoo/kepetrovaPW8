@@ -1,4 +1,0 @@
-//
-//  Coordinator.swift
-//  kepetrovaPW8
-

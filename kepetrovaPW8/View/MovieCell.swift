@@ -38,8 +38,8 @@ final class MovieCell: UITableViewCell {
     }
     
     func configure(data: Movie) {
-        title.text = data.title
         poster.image = data.poster
+        title.text = data.title
     }
     
     private func configureUI() {

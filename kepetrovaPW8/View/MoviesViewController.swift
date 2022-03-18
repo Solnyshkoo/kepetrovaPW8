@@ -42,6 +42,24 @@ final class MoviesViewController: UIViewController {
         view.addGestureRecognizer(tapActionHideError)
         return view
     }()
+    
+    private lazy var searchBar: UISearchBar = {
+        let searchBar = UISearchBar()
+        searchBar.delegate = self
+        searchBar.translatesAutoresizingMaskIntoConstraints = false
+        searchBar.barTintColor = UIColor.white
+        searchBar.searchTextField.textColor = UIColor.black
+        searchBar.searchTextField.backgroundColor = UIColor.systemGray5
+        searchBar.searchBarStyle = .minimal
+        searchBar.layer.cornerRadius = 15
+    
+       // searchBar.tintColor = ColorPalette.mainText
+       // searchBar.searchTextField.leftView?.tintColor = ColorPalette.mainText
+        searchBar.placeholder = "Enter a movie..."
+        searchBar.showsCancelButton = false
+        return searchBar
+    }()
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,9 +80,14 @@ final class MoviesViewController: UIViewController {
     }
     
     private func configureUI() {
+        
         view.addSubview(tableView)
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            searchBar.topAnchor.constraint(equalTo: errorView.bottomAnchor),
+            searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            searchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            
+            tableView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 20),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
@@ -80,6 +103,7 @@ final class MoviesViewController: UIViewController {
 
     private func setupErrorViewConstraints() {
         view.addSubview(errorView)
+        view.addSubview(searchBar)
         let errorConstraint = errorView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
         NSLayoutConstraint.activate([
             errorView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -159,15 +183,37 @@ extension MoviesViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
+    
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        searchBar.resignFirstResponder()
+    }
+    
+    
 }
 
-final class MatchesModuleBuilder {
-    let viewController: MoviesViewController
-    private let presenter: MoviesViewModel
-   
-    init(matchesService: MovieService) {
-        presenter = MoviesViewModel(moviesService: matchesService)
-        viewController = MoviesViewController(output: presenter)
-        presenter.view = viewController
-    }
+extension MoviesViewController: UISearchBarDelegate {
+//    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+//        searchDebouncerTimer?.invalidate()
+//
+//        let timer = Timer.scheduledTimer(
+//            withTimeInterval: 1.0,
+//            repeats: false
+//        ) { [weak self] _ in
+//            self?.fireTimer()
+//        }
+//
+//        searchDebouncerTimer = timer
+//    }
+//
+//    private func fireTimer() {
+//        if searchBar.text?.isEmpty ?? true {
+//            updateState(.startScreen)
+//        } else {
+//            output?.search(searchBar.text ?? "")
+//        }
+//    }
 }
+
+
+

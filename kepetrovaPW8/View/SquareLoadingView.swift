@@ -3,7 +3,7 @@ import UIKit
 final class SquareLoadingView: UIView {
     private enum Constant {
         static let scaleTo: CGFloat = 0.01
-        static let side: CGFloat = 50
+        static let side: CGFloat = 55
         static let duration: TimeInterval = 1.0
         static let fadeInDuration: TimeInterval = 0.4
     }
@@ -67,11 +67,11 @@ final class SquareLoadingView: UIView {
             [middleTopView],
             [rightTopView],
             [rightCenterView],
-            [middleCenterView],
-            [leftCenterView],
-            [leftBottomView],
+            [rightBottomView],
             [middleBottomView],
-            [rightBottomView]
+            [leftBottomView],
+            [leftCenterView],
+            [middleCenterView],
         ]
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
@@ -134,7 +134,7 @@ final class SquareLoadingView: UIView {
         }
 
         let view = UIView(frame: CGRect(x: x, y: y, width: side, height: side))
-        view.layer.cornerRadius = 20
+        view.layer.cornerRadius = 9
         view.backgroundColor = squareColor
         return view
     }

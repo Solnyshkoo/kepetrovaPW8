@@ -19,9 +19,6 @@ final class MovieService {
         let session = URLSession.shared.dataTask(with: url) { data, _, error in
             var result: ObtainPostsResult
 
-            defer {
-                closure(result)
-            }
             guard
                 let data = data,
                 let post = try? JSONSerialization.jsonObject(with: data, options: .json5Allowed) as? [String: Any],
@@ -30,14 +27,21 @@ final class MovieService {
                 result = .failure(error: error!)
                 return
             }
-            var movies: [Movie] = results.map { item in
+            let movies: [Movie] = results.map { item in
                 let title = item["title"] as? String
                 let imagePath = item["poster_path"] as? String
                 return Movie(title: title ?? "", path: imagePath ?? "")
             }
             
-            self.loadPostersForMovies(movies) { movie in
-                movies = movie
+            let group = DispatchGroup()
+            for movie in movies {
+                group.enter()
+                DispatchQueue.global(qos: .background).async { [weak self] in
+                    guard let `self` = self else { return }
+                    self.loadPosters(movie: movie, completion: { _ in
+                        group.leave()
+                    })
+                }
             }
             result = .success(posts: movies)
             closure(result)
@@ -46,22 +50,7 @@ final class MovieService {
         session.resume()
     }
     
-    private func loadPostersForMovies(_ movies: [Movie], completion: @escaping ([Movie]) -> Void) {
-        let group = DispatchGroup()
-        for movie in movies {
-            group.enter()
-            DispatchQueue.global(qos: .background).async { [weak self] in
-                guard let `self` = self else { return }
-                self.loadPosters(movie: movie, completion: { _ in
-                    group.leave()
-                })
-            }
-        }
-        
-        group.notify(queue: .main) {
-            completion(movies)
-        }
-    }
+  
     
     private func loadPosters(movie: Movie, completion: @escaping (UIImage?) -> Void) {
         let poster = movie.posterPath
