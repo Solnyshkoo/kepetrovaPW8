@@ -20,11 +20,14 @@ final class MovieCell: UITableViewCell {
 
     private lazy var poster: UIImageView = {
         let image = UIImageView()
+        image.contentMode = .scaleAspectFit
+        image.layer.cornerRadius = 15
+        image.clipsToBounds = true
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
     
-    init() {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: Self.indentifier)
         configureUI()
     }
@@ -34,19 +37,35 @@ final class MovieCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func configure(data: Movie) {
+        title.text = data.title
+        poster.image = data.poster
+    }
+    
     private func configureUI() {
-        addSubview(poster)
-        addSubview(title)
+        contentView.addSubview(poster)
+        contentView.addSubview(title)
         NSLayoutConstraint.activate([
-            poster.topAnchor.constraint(equalTo: topAnchor),
-            poster.leadingAnchor.constraint(equalTo: leadingAnchor),
-            poster.trailingAnchor.constraint(equalTo: trailingAnchor),
-            poster.heightAnchor.constraint(equalToConstant: 200),
             
-            title.topAnchor.constraint(equalTo: poster.bottomAnchor, constant: 10),
-            title.leadingAnchor.constraint(equalTo: leadingAnchor),
-            title.trailingAnchor.constraint(equalTo: trailingAnchor),
-            title.heightAnchor.constraint(equalToConstant: 20)
+        poster.topAnchor.constraint(equalTo: bottomAnchor),
+        poster.centerXAnchor.constraint(equalTo: centerXAnchor),
+        poster.centerYAnchor.constraint(equalTo: centerYAnchor),
+        poster.heightAnchor.constraint(equalToConstant: 250),
+
+
+
+        title.leftAnchor.constraint(equalTo: leftAnchor, constant: 12),
+        title.topAnchor.constraint(equalTo: self.poster.bottomAnchor, constant: 3),
+        title.rightAnchor.constraint(equalTo: rightAnchor, constant: -12)
+            
+            
+          
+
+//
+//            title.topAnchor.constraint(equalTo: poster.bottomAnchor, constant: 10),
+//            title.leadingAnchor.constraint(equalTo: leadingAnchor),
+//            title.trailingAnchor.constraint(equalTo: trailingAnchor),
+//            title.heightAnchor.constraint(equalToConstant: 20)
         ])
     }
 }
