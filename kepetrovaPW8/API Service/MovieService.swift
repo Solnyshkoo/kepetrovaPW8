@@ -30,9 +30,10 @@ final class MovieService {
             let movies: [Movie] = results.map { item in
                 let title = item["title"] as? String
                 let imagePath = item["poster_path"] as? String
-                return Movie(title: title ?? "", path: imagePath ?? "")
+                let id = item["id"] as? String
+                return Movie(title: title ?? "", path: imagePath ?? "", id: id ?? "")
             }
-            
+            result = .success(posts: movies)
             let group = DispatchGroup()
             for movie in movies {
                 group.enter()
@@ -43,14 +44,13 @@ final class MovieService {
                     })
                 }
             }
-            result = .success(posts: movies)
-            closure(result)
-            print(result)
+            group.notify(queue: .main) {
+                result = .success(posts: movies)
+                closure(result)
+            }
         }
         session.resume()
     }
-    
-  
     
     private func loadPosters(movie: Movie, completion: @escaping (UIImage?) -> Void) {
         let poster = movie.posterPath
