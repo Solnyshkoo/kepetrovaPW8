@@ -7,9 +7,18 @@
 
 import UIKit
 
+protocol SearchModuleViewInput: AnyObject {
+    func update(state: MoviePresenterState)
+}
 
+protocol SearchModuleViewOutput: AnyObject {
+    func getCount() -> Int
+    func getDataMovie(indexPath: Int) -> Movie
+    func MovieTapped(section: Int)
+}
 
 final class SearchViewController: UIViewController {
+    var moviesViewModel: SearchModuleViewOutput
     private lazy var loadingView = SquareLoadingView()
     private var errorConstraint: NSLayoutConstraint?
     private lazy var tableView: UITableView = {
@@ -49,6 +58,17 @@ final class SearchViewController: UIViewController {
         searchBar.showsCancelButton = false
         return searchBar
     }()
+    
+    
+    init(output: SearchModuleViewOutput) {
+        moviesViewModel = output
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
 
     override func viewDidLoad() {
@@ -126,7 +146,7 @@ final class SearchViewController: UIViewController {
     }
 }
 
-extension SearchViewController: MoviesModuleViewInput {
+extension SearchViewController: SearchModuleViewInput {
     func update(state: MoviePresenterState) {
         switch state {
         case .loading:

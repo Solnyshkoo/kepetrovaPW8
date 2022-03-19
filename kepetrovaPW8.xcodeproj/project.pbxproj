@@ -22,6 +22,8 @@
 		5E79CD2827E39BFF009A6F77 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E79CD2727E39BFF009A6F77 /* Movie.swift */; };
 		5E79CD2A27E39F26009A6F77 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E79CD2927E39F26009A6F77 /* ErrorView.swift */; };
 		5EC9AC3C27E64C38005555AA /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC9AC3B27E64C38005555AA /* SearchViewController.swift */; };
+		5EC9AC4B27E65933005555AA /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC9AC4A27E65933005555AA /* SearchViewModel.swift */; };
+		5EC9AC4D27E65B35005555AA /* SearchBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC9AC4C27E65B35005555AA /* SearchBuilder.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +44,8 @@
 		5E79CD2727E39BFF009A6F77 /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		5E79CD2927E39F26009A6F77 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
 		5EC9AC3B27E64C38005555AA /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		5EC9AC4A27E65933005555AA /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SearchViewModel.swift; path = kepetrovaPW8/Common/SearchViewModel.swift; sourceTree = SOURCE_ROOT; };
+		5EC9AC4C27E65B35005555AA /* SearchBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBuilder.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -148,6 +152,7 @@
 				5EC9AC4027E651F9005555AA /* Model */,
 				5EC9AC4127E65206005555AA /* View */,
 				5EC9AC4327E65221005555AA /* View Model */,
+				5EC9AC4C27E65B35005555AA /* SearchBuilder.swift */,
 			);
 			path = SearchMovies;
 			sourceTree = "<group>";
@@ -170,6 +175,7 @@
 		5EC9AC4327E65221005555AA /* View Model */ = {
 			isa = PBXGroup;
 			children = (
+				5EC9AC4A27E65933005555AA /* SearchViewModel.swift */,
 			);
 			path = "View Model";
 			sourceTree = "<group>";
@@ -252,6 +258,8 @@
 				5E79CD2827E39BFF009A6F77 /* Movie.swift in Sources */,
 				5E79CD0227E38B04009A6F77 /* AppDelegate.swift in Sources */,
 				5E79CD0427E38B04009A6F77 /* SceneDelegate.swift in Sources */,
+				5EC9AC4D27E65B35005555AA /* SearchBuilder.swift in Sources */,
+				5EC9AC4B27E65933005555AA /* SearchViewModel.swift in Sources */,
 				5EC9AC3C27E64C38005555AA /* SearchViewController.swift in Sources */,
 				5E4F15F327E53BF700282B6F /* ViewBuilder.swift in Sources */,
 				5E79CD2227E39ABC009A6F77 /* MovieService.swift in Sources */,

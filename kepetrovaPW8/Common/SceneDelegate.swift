@@ -14,10 +14,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(windowScene: windowScene)
         let tabBar = UITabBarController()
-        let matchesModule = MoviesModuleBuilder(moviesService: MovieService())
+        let service = MovieService()
+        let matchesModule = MoviesModuleBuilder(moviesService: service)
+        let searchModule = SearchBuilder(moviesService: service)
 
         let viewControllers = [
-            SearchViewController(),
+            searchModule.viewController,
             matchesModule.viewController,
         ]
        
