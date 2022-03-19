@@ -1,10 +1,3 @@
-//
-//  MovieService.swift
-//  kepetrovaPW8
-//
-//  Created by Ksenia Petrova on 17.03.2022.
-//
-
 import Foundation
 import UIKit
 enum ObtainPostsResult {
@@ -18,7 +11,6 @@ final class MovieService {
         guard let url = URL(string: "https://api.themoviedb.org/3/discover/movie?api_key=\(apiKey)&language=ruRU") else { return assertionFailure("some problems with url") }
         let session = URLSession.shared.dataTask(with: url) { data, _, error in
             var result: ObtainPostsResult
-
             guard
                 let data = data,
                 let post = try? JSONSerialization.jsonObject(with: data, options: .json5Allowed) as? [String: Any],
@@ -51,13 +43,11 @@ final class MovieService {
         }
         session.resume()
     }
-    
-    
+
     func searchMovies(text: String, _ closure: @escaping (ObtainPostsResult) -> Void) {
         guard let url = URL(string: "https://api.themoviedb.org/3/search/movie?api_key=\(apiKey)&language=en-US&query=\(text)") else { return assertionFailure("some problems with url") }
         let session = URLSession.shared.dataTask(with: url) { data, _, error in
             var result: ObtainPostsResult
-
             guard
                 let data = data,
                 let post = try? JSONSerialization.jsonObject(with: data, options: .json5Allowed) as? [String: Any],
@@ -91,8 +81,7 @@ final class MovieService {
         }
         session.resume()
     }
-    
-    
+
     private func loadPosters(movie: Movie, completion: @escaping (UIImage?) -> Void) {
         let poster = movie.posterPath
         guard
@@ -107,7 +96,7 @@ final class MovieService {
             else {
                 return completion(nil)
             }
-            
+
             movie.poster = image
             completion(image)
         }

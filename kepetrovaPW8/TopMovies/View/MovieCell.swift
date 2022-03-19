@@ -1,10 +1,3 @@
-//
-//  MovieCel.swift
-//  kepetrovaPW8
-//
-//  Created by Ksenia Petrova on 17.03.2022.
-//
-
 import Foundation
 import UIKit
 final class MovieCell: UITableViewCell {
@@ -46,26 +39,14 @@ final class MovieCell: UITableViewCell {
         contentView.addSubview(poster)
         contentView.addSubview(title)
         NSLayoutConstraint.activate([
+            poster.topAnchor.constraint(equalTo: bottomAnchor),
+            poster.centerXAnchor.constraint(equalTo: centerXAnchor),
+            poster.centerYAnchor.constraint(equalTo: centerYAnchor),
+            poster.heightAnchor.constraint(equalToConstant: 250),
             
-        poster.topAnchor.constraint(equalTo: bottomAnchor),
-        poster.centerXAnchor.constraint(equalTo: centerXAnchor),
-        poster.centerYAnchor.constraint(equalTo: centerYAnchor),
-        poster.heightAnchor.constraint(equalToConstant: 250),
-
-
-
-        title.leftAnchor.constraint(equalTo: leftAnchor, constant: 12),
-        title.topAnchor.constraint(equalTo: self.poster.bottomAnchor, constant: 3),
-        title.rightAnchor.constraint(equalTo: rightAnchor, constant: -12)
-            
-            
-          
-
-//
-//            title.topAnchor.constraint(equalTo: poster.bottomAnchor, constant: 10),
-//            title.leadingAnchor.constraint(equalTo: leadingAnchor),
-//            title.trailingAnchor.constraint(equalTo: trailingAnchor),
-//            title.heightAnchor.constraint(equalToConstant: 20)
+            title.leftAnchor.constraint(equalTo: leftAnchor, constant: 12),
+            title.topAnchor.constraint(equalTo: poster.bottomAnchor, constant: 3),
+            title.rightAnchor.constraint(equalTo: rightAnchor, constant: -12)
         ])
     }
 }

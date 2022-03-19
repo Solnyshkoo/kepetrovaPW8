@@ -1,13 +1,5 @@
-//
-//  MoviesViewModel.swift
-//  kepetrovaPW8
-//
-//  Created by Ksenia Petrova on 17.03.2022.
-//
-
 import Foundation
 import UIKit
-
 final class MoviesViewModel {
     weak var view: MoviesModuleViewInput? {
         didSet {
@@ -38,16 +30,12 @@ final class MoviesViewModel {
             }
         }
     }
-
-   
 }
-
 
 extension MoviesViewModel: MoviesModuleViewOutput {
     func getCount() -> Int {
         print(allMovies)
         return allMovies.count
-        
     }
 
     func getDataMovie(indexPath: Int) -> Movie {
@@ -69,8 +57,6 @@ extension MoviesViewModel: MoviesModuleViewOutput {
             }
         }
     }
-    
+
     func MovieTapped(section: Int) {}
 }
-
-

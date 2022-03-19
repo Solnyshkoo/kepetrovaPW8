@@ -1,12 +1,4 @@
-//
-//  ViewController.swift
-//  kepetrovaPW8
-//
-//  Created by Ksenia Petrova on 17.03.2022.
-//
-
 import UIKit
-
 protocol SearchModuleViewInput: AnyObject {
     func update(state: MoviePresenterState)
 }
@@ -32,18 +24,18 @@ final class SearchViewController: UIViewController {
         table.delegate = self
         return table
     }()
-    
+
     private lazy var errorView: ErrorView = {
         let view = ErrorView()
         view.alpha = 0
         view.translatesAutoresizingMaskIntoConstraints = false
         view.isUserInteractionEnabled = true
-     
+
         let tapActionHideError = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
         view.addGestureRecognizer(tapActionHideError)
         return view
     }()
-    
+
     private lazy var searchBar: UISearchBar = {
         let searchBar = UISearchBar()
         searchBar.delegate = self
@@ -53,56 +45,47 @@ final class SearchViewController: UIViewController {
         searchBar.searchTextField.backgroundColor = UIColor.systemGray5
         searchBar.searchBarStyle = .minimal
         searchBar.layer.cornerRadius = 15
-
-       // searchBar.tintColor = ColorPalette.mainText
-       // searchBar.searchTextField.leftView?.tintColor = ColorPalette.mainText
         searchBar.placeholder = "Enter a movie..."
         searchBar.showsCancelButton = false
         return searchBar
     }()
-    
-    
+
     init(output: SearchModuleViewOutput) {
         moviesViewModel = output
         super.init(nibName: nil, bundle: nil)
     }
-    
+
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
 
     override func viewDidLoad() {
         super.viewDidLoad()
-      
         view.backgroundColor = .white
-      
         setupErrorViewConstraints()
         configureUI()
     }
 
-    
     private func configureUI() {
-       
         view.addSubview(tableView)
         NSLayoutConstraint.activate([
             searchBar.topAnchor.constraint(equalTo: errorView.bottomAnchor),
             searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             searchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            
+
             tableView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 20),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
-    
+
     private func setupLoading() {
         view.addSubview(loadingView)
         loadingView.center = view.center
     }
-    
+
     // MARK: ErrorView Constraints
 
     private func setupErrorViewConstraints() {
@@ -115,9 +98,9 @@ final class SearchViewController: UIViewController {
             errorView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             errorConstraint,
             errorView.heightAnchor.constraint(equalToConstant: 90)
-              
+
         ])
-           
+
         self.errorConstraint = errorConstraint
     }
 
@@ -126,7 +109,8 @@ final class SearchViewController: UIViewController {
     func showError() {
         UIView.animate(withDuration: 0.5,
                        delay: 0.0,
-                       options: [.curveEaseInOut]) {
+                       options: [.curveEaseInOut])
+        {
             self.errorConstraint?.constant = 35
             self.errorView.alpha = 1
             self.view.layoutIfNeeded()
@@ -136,7 +120,8 @@ final class SearchViewController: UIViewController {
     func hideError() {
         UIView.animate(withDuration: 0.5,
                        delay: 0.0,
-                       options: [.curveEaseOut]) {
+                       options: [.curveEaseOut])
+        {
             self.errorConstraint?.constant = 0
             self.errorView.alpha = 0
             self.view.layoutIfNeeded()
@@ -167,16 +152,15 @@ extension SearchViewController: SearchModuleViewInput {
             tableView.isHidden = false
         case .none:
             tableView.isHidden = true
-            break
         }
     }
 }
 
 extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-       return moviesViewModel.getCount()
+        return moviesViewModel.getCount()
     }
-    
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 300
     }
@@ -187,17 +171,14 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
         cell.configure(data: data)
         return cell
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
-    
-    
+
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         searchBar.resignFirstResponder()
     }
-    
-    
 }
 
 extension SearchViewController: UISearchBarDelegate {
@@ -220,6 +201,3 @@ extension SearchViewController: UISearchBarDelegate {
         }
     }
 }
-
-
-

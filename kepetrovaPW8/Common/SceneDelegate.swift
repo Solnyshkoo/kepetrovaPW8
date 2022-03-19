@@ -1,10 +1,3 @@
-//
-//  SceneDelegate.swift
-//  kepetrovaPW8
-//
-//  Created by Ksenia Petrova on 17.03.2022.
-//
-
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
@@ -17,12 +10,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let service = MovieService()
         let matchesModule = MoviesModuleBuilder(moviesService: service)
         let searchModule = SearchBuilder(moviesService: service)
-
         let viewControllers = [
             searchModule.viewController,
             matchesModule.viewController,
         ]
-       
+
         tabBar.setViewControllers(viewControllers, animated: false)
         let items = tabBar.tabBar.items!
         let titles = ["Search", "Top"]
@@ -32,14 +24,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         tabBar.tabBar.backgroundColor = UIColor.systemMint
         tabBar.tabBar.tintColor = .white
         tabBar.tabBar.barTintColor = .darkGray
-       
 
         let nav = UINavigationController(rootViewController: tabBar)
         window.rootViewController = nav
         self.window = window
 
         window.makeKeyAndVisible()
-     
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -73,4 +63,3 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
     }
 }
-

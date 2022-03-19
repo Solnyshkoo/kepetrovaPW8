@@ -1,12 +1,4 @@
-//
-//  ViewController.swift
-//  kepetrovaPW8
-//
-//  Created by Ksenia Petrova on 17.03.2022.
-//
-
 import UIKit
-
 protocol MoviesModuleViewInput: AnyObject {
     func update(state: MoviePresenterState)
 }
@@ -31,79 +23,53 @@ final class MoviesViewController: UIViewController {
         table.delegate = self
         return table
     }()
-    
+
     private lazy var errorView: ErrorView = {
         let view = ErrorView()
         view.alpha = 0
         view.translatesAutoresizingMaskIntoConstraints = false
         view.isUserInteractionEnabled = true
-     
+
         let tapActionHideError = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
         view.addGestureRecognizer(tapActionHideError)
         return view
     }()
-    
-//    private lazy var searchBar: UISearchBar = {
-//        let searchBar = UISearchBar()
-//        searchBar.delegate = self
-//        searchBar.translatesAutoresizingMaskIntoConstraints = false
-//        searchBar.barTintColor = UIColor.white
-//        searchBar.searchTextField.textColor = UIColor.black
-//        searchBar.searchTextField.backgroundColor = UIColor.systemGray5
-//        searchBar.searchBarStyle = .minimal
-//        searchBar.layer.cornerRadius = 15
-//
-//       // searchBar.tintColor = ColorPalette.mainText
-//       // searchBar.searchTextField.leftView?.tintColor = ColorPalette.mainText
-//        searchBar.placeholder = "Enter a movie..."
-//        searchBar.showsCancelButton = false
-//        return searchBar
-//    }()
-    
 
     override func viewDidLoad() {
         super.viewDidLoad()
-      
         view.backgroundColor = .white
-       
         setupErrorViewConstraints()
     }
-    
+
     init(output: MoviesModuleViewOutput) {
         moviesViewModel = output
         super.init(nibName: nil, bundle: nil)
     }
-    
+
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     private func configureUI() {
-        
         view.addSubview(tableView)
         NSLayoutConstraint.activate([
-//            searchBar.topAnchor.constraint(equalTo: errorView.bottomAnchor),
-//            searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-//            searchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            
             tableView.topAnchor.constraint(equalTo: errorView.bottomAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
-    
+
     private func setupLoading() {
         view.addSubview(loadingView)
         loadingView.center = view.center
     }
-    
+
     // MARK: ErrorView Constraints
 
     private func setupErrorViewConstraints() {
         view.addSubview(errorView)
-      //  view.addSubview(searchBar)
         let errorConstraint = errorView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
         NSLayoutConstraint.activate([
             errorView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -111,9 +77,9 @@ final class MoviesViewController: UIViewController {
             errorView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             errorConstraint,
             errorView.heightAnchor.constraint(equalToConstant: 90)
-              
+
         ])
-           
+
         self.errorConstraint = errorConstraint
     }
 
@@ -168,7 +134,7 @@ extension MoviesViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return moviesViewModel.getCount()
     }
-    
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 300
     }
@@ -179,41 +145,8 @@ extension MoviesViewController: UITableViewDataSource, UITableViewDelegate {
         cell.configure(data: data)
         return cell
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
-    
-    
-//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        searchBar.resignFirstResponder()
-//    }
-    
-    
 }
-
-extension MoviesViewController: UISearchBarDelegate {
-//    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-//        searchDebouncerTimer?.invalidate()
-//
-//        let timer = Timer.scheduledTimer(
-//            withTimeInterval: 1.0,
-//            repeats: false
-//        ) { [weak self] _ in
-//            self?.fireTimer()
-//        }
-//
-//        searchDebouncerTimer = timer
-//    }
-//
-//    private func fireTimer() {
-//        if searchBar.text?.isEmpty ?? true {
-//            updateState(.startScreen)
-//        } else {
-//            output?.search(searchBar.text ?? "")
-//        }
-//    }
-}
-
-
-

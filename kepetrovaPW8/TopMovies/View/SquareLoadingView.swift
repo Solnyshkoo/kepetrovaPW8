@@ -61,7 +61,7 @@ final class SquareLoadingView: UIView {
         }
 
         fadeIn()
-        
+
         let array = [
             [leftTopView],
             [middleTopView],
@@ -79,10 +79,10 @@ final class SquareLoadingView: UIView {
                 viewArray.forEach { view in
                     UIView.animate(withDuration: self.duration, delay: 0.1 * Double(index),
                                    options: [.autoreverse, .repeat], animations: {
-                        view.transform = CGAffineTransform(scaleX: Constant.scaleTo, y: Constant.scaleTo)
-                    }, completion: { _ in
-                        view.transform = .identity
-                    })
+                                       view.transform = CGAffineTransform(scaleX: Constant.scaleTo, y: Constant.scaleTo)
+                                   }, completion: { _ in
+                                       view.transform = .identity
+                                   })
                 }
             }
         }
@@ -90,7 +90,7 @@ final class SquareLoadingView: UIView {
 
     func stopAnimation() {
         isAnimating = false
-        self.removeFromSuperview()
+        removeFromSuperview()
     }
 
     private func fadeIn() {
