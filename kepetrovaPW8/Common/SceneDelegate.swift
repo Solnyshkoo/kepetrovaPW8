@@ -31,7 +31,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
         tabBar.tabBar.backgroundColor = UIColor.systemMint
         tabBar.tabBar.tintColor = .white
-        tabBar.tabBar.barTintColor = .systemGray
+        tabBar.tabBar.barTintColor = .darkGray
        
 
         let nav = UINavigationController(rootViewController: tabBar)

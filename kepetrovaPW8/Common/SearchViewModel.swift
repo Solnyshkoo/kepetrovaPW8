@@ -11,7 +11,7 @@ import UIKit
 final class SearchViewModel {
     weak var view: SearchModuleViewInput? {
         didSet {
-            updateView()
+            view?.update(state: state)
         }
     }
 
@@ -38,21 +38,21 @@ final class SearchViewModel {
             }
         }
     }
-    func updateView() {
-        state = .loading
-        DispatchQueue.global(qos: .background).async { [weak self] in
-            self?.moviesService.loadMovies { [weak self] result in
-                switch result {
-                case .success(let movies):
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                        self?.state = .success(movies)
-                    }
-                case .failure(let error):
-                    self?.state = .error(error)
-                }
-            }
-        }
-    }
+//    func updateView() {
+//        state = .loading
+//        DispatchQueue.global(qos: .background).async { [weak self] in
+//            self?.moviesService.loadMovies { [weak self] result in
+//                switch result {
+//                case .success(let movies):
+//                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+//                        self?.state = .success(movies)
+//                    }
+//                case .failure(let error):
+//                    self?.state = .error(error)
+//                }
+//            }
+//        }
+//    }
    
 }
 
@@ -71,6 +71,28 @@ extension SearchViewModel: SearchModuleViewOutput {
 
     
     func MovieTapped(section: Int) {}
+    
+    
+    func search(_ name: String) {
+        if !name.isEmpty {
+            let text = name.replacingOccurrences(of: " ", with: "%20")
+            state = .loading
+            DispatchQueue.global(qos: .background).async { [weak self] in
+                self?.moviesService.searchMovies(text: text,  { [weak self] result in
+                    switch result {
+                    case .success(let movies):
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                            self?.state = .success(movies)
+                        }
+                    case .failure(let error):
+                        self?.state = .error(error)
+                    }
+                })
+            }
+        } else {
+            state = .none
+        }
+    }
 }
 
 

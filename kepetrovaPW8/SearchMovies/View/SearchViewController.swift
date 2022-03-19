@@ -15,11 +15,13 @@ protocol SearchModuleViewOutput: AnyObject {
     func getCount() -> Int
     func getDataMovie(indexPath: Int) -> Movie
     func MovieTapped(section: Int)
+    func search(_ name: String)
 }
 
 final class SearchViewController: UIViewController {
     var moviesViewModel: SearchModuleViewOutput
     private lazy var loadingView = SquareLoadingView()
+    private var searchDebouncerTimer: Timer?
     private var errorConstraint: NSLayoutConstraint?
     private lazy var tableView: UITableView = {
         let table = UITableView()
@@ -151,16 +153,20 @@ extension SearchViewController: SearchModuleViewInput {
         switch state {
         case .loading:
             setupLoading()
+            tableView.isHidden = true
             loadingView.startAnimation()
         case .error:
+            tableView.isHidden = true
             loadingView.stopAnimation()
             DispatchQueue.main.async {
                 self.showError()
             }
         case .success:
             loadingView.stopAnimation()
-            configureUI()
+            tableView.reloadData()
+            tableView.isHidden = false
         case .none:
+            tableView.isHidden = true
             break
         }
     }
@@ -168,8 +174,7 @@ extension SearchViewController: SearchModuleViewInput {
 
 extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        0
-       // return moviesViewModel.getCount()
+       return moviesViewModel.getCount()
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -177,11 +182,10 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let data = moviesViewModel.getDataMovie(indexPath: indexPath.row)
-//        let cell = tableView.dequeueReusableCell(withIdentifier: MovieCell.indentifier, for: indexPath) as! MovieCell
-//        cell.configure(data: data)
-//        return cell
-        UITableViewCell()
+        let data = moviesViewModel.getDataMovie(indexPath: indexPath.row)
+        let cell = tableView.dequeueReusableCell(withIdentifier: MovieCell.indentifier, for: indexPath) as! MovieCell
+        cell.configure(data: data)
+        return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -197,26 +201,24 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
 }
 
 extension SearchViewController: UISearchBarDelegate {
-//    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-//        searchDebouncerTimer?.invalidate()
-//
-//        let timer = Timer.scheduledTimer(
-//            withTimeInterval: 1.0,
-//            repeats: false
-//        ) { [weak self] _ in
-//            self?.fireTimer()
-//        }
-//
-//        searchDebouncerTimer = timer
-//    }
-//
-//    private func fireTimer() {
-//        if searchBar.text?.isEmpty ?? true {
-//            updateState(.startScreen)
-//        } else {
-//            output?.search(searchBar.text ?? "")
-//        }
-//    }
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        searchDebouncerTimer?.invalidate()
+
+        let timer = Timer.scheduledTimer(
+            withTimeInterval: 1.0,
+            repeats: false
+        ) { [weak self] _ in
+            self?.fireTimer()
+        }
+
+        searchDebouncerTimer = timer
+    }
+
+    private func fireTimer() {
+        if !(searchBar.text?.isEmpty ?? true) {
+            moviesViewModel.search(searchBar.text ?? "")
+        }
+    }
 }
 
 

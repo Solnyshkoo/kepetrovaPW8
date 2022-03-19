@@ -52,6 +52,47 @@ final class MovieService {
         session.resume()
     }
     
+    
+    func searchMovies(text: String, _ closure: @escaping (ObtainPostsResult) -> Void) {
+        guard let url = URL(string: "https://api.themoviedb.org/3/search/movie?api_key=\(apiKey)&language=en-US&query=\(text)") else { return assertionFailure("some problems with url") }
+        let session = URLSession.shared.dataTask(with: url) { data, _, error in
+            var result: ObtainPostsResult
+
+            guard
+                let data = data,
+                let post = try? JSONSerialization.jsonObject(with: data, options: .json5Allowed) as? [String: Any],
+                let results = post["results"] as? [[String: Any]]
+            else {
+                result = .failure(error: error!)
+                return
+            }
+            let movies: [Movie] = results.map { item in
+                let title = item["original_title"] as? String
+                let imagePath = item["poster_path"] as? String
+                let id = item["id"] as? String
+                return Movie(title: title ?? "", path: imagePath ?? "", id: id ?? "")
+            }
+            result = .success(posts: movies)
+            let group = DispatchGroup()
+            for movie in movies {
+                group.enter()
+                DispatchQueue.global(qos: .background).async { [weak self] in
+                    guard let `self` = self else { return }
+                    self.loadPosters(movie: movie, completion: { _ in
+                        group.leave()
+                    })
+                }
+            }
+            group.notify(queue: .main) {
+                result = .success(posts: movies)
+                closure(result)
+            }
+            print(movies)
+        }
+        session.resume()
+    }
+    
+    
     private func loadPosters(movie: Movie, completion: @escaping (UIImage?) -> Void) {
         let poster = movie.posterPath
         guard
