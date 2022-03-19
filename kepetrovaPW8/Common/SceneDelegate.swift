@@ -13,12 +13,31 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(windowScene: windowScene)
+        let tabBar = UITabBarController()
         let matchesModule = MoviesModuleBuilder(moviesService: MovieService())
-        let nav = UINavigationController(rootViewController: matchesModule.viewController)
+
+        let viewControllers = [
+            SearchViewController(),
+            matchesModule.viewController,
+        ]
+       
+        tabBar.setViewControllers(viewControllers, animated: false)
+        let items = tabBar.tabBar.items!
+        let titles = ["Search", "Top"]
+        for i in 0 ..< viewControllers.count {
+            items[i].image = UIImage(named: titles[i])
+        }
+        tabBar.tabBar.backgroundColor = UIColor.systemMint
+        tabBar.tabBar.tintColor = .white
+        tabBar.tabBar.barTintColor = .systemGray
+       
+
+        let nav = UINavigationController(rootViewController: tabBar)
         window.rootViewController = nav
         self.window = window
-       
+
         window.makeKeyAndVisible()
+     
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

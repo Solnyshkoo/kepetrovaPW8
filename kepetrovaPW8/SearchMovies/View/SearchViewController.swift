@@ -7,19 +7,9 @@
 
 import UIKit
 
-protocol MoviesModuleViewInput: AnyObject {
-    func update(state: MoviePresenterState)
-}
 
-protocol MoviesModuleViewOutput: AnyObject {
-    func getCount() -> Int
-    func getDataMovie(indexPath: Int) -> Movie
-    func MovieTapped(section: Int)
-    func updateView()
-}
 
-final class MoviesViewController: UIViewController {
-    var moviesViewModel: MoviesModuleViewOutput
+final class SearchViewController: UIViewController {
     private lazy var loadingView = SquareLoadingView()
     private var errorConstraint: NSLayoutConstraint?
     private lazy var tableView: UITableView = {
@@ -52,7 +42,7 @@ final class MoviesViewController: UIViewController {
         searchBar.searchTextField.backgroundColor = UIColor.systemGray5
         searchBar.searchBarStyle = .minimal
         searchBar.layer.cornerRadius = 15
-    
+
        // searchBar.tintColor = ColorPalette.mainText
        // searchBar.searchTextField.leftView?.tintColor = ColorPalette.mainText
         searchBar.placeholder = "Enter a movie..."
@@ -65,22 +55,14 @@ final class MoviesViewController: UIViewController {
         super.viewDidLoad()
       
         view.backgroundColor = .white
-       
+      
         setupErrorViewConstraints()
+        configureUI()
     }
-    
-    init(output: MoviesModuleViewOutput) {
-        moviesViewModel = output
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+
     
     private func configureUI() {
-        
+       
         view.addSubview(tableView)
         NSLayoutConstraint.activate([
             searchBar.topAnchor.constraint(equalTo: errorView.bottomAnchor),
@@ -90,7 +72,7 @@ final class MoviesViewController: UIViewController {
             tableView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 20),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
     
@@ -144,7 +126,7 @@ final class MoviesViewController: UIViewController {
     }
 }
 
-extension MoviesViewController: MoviesModuleViewInput {
+extension SearchViewController: MoviesModuleViewInput {
     func update(state: MoviePresenterState) {
         switch state {
         case .loading:
@@ -164,9 +146,10 @@ extension MoviesViewController: MoviesModuleViewInput {
     }
 }
 
-extension MoviesViewController: UITableViewDataSource, UITableViewDelegate {
+extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return moviesViewModel.getCount()
+        0
+       // return moviesViewModel.getCount()
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -174,10 +157,11 @@ extension MoviesViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let data = moviesViewModel.getDataMovie(indexPath: indexPath.row)
-        let cell = tableView.dequeueReusableCell(withIdentifier: MovieCell.indentifier, for: indexPath) as! MovieCell
-        cell.configure(data: data)
-        return cell
+//        let data = moviesViewModel.getDataMovie(indexPath: indexPath.row)
+//        let cell = tableView.dequeueReusableCell(withIdentifier: MovieCell.indentifier, for: indexPath) as! MovieCell
+//        cell.configure(data: data)
+//        return cell
+        UITableViewCell()
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -192,7 +176,7 @@ extension MoviesViewController: UITableViewDataSource, UITableViewDelegate {
     
 }
 
-extension MoviesViewController: UISearchBarDelegate {
+extension SearchViewController: UISearchBarDelegate {
 //    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
 //        searchDebouncerTimer?.invalidate()
 //

@@ -21,6 +21,7 @@
 		5E79CD2627E39B90009A6F77 /* MoviePresenterState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E79CD2527E39B90009A6F77 /* MoviePresenterState.swift */; };
 		5E79CD2827E39BFF009A6F77 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E79CD2727E39BFF009A6F77 /* Movie.swift */; };
 		5E79CD2A27E39F26009A6F77 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E79CD2927E39F26009A6F77 /* ErrorView.swift */; };
+		5EC9AC3C27E64C38005555AA /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC9AC3B27E64C38005555AA /* SearchViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,7 @@
 		5E79CD2527E39B90009A6F77 /* MoviePresenterState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviePresenterState.swift; sourceTree = "<group>"; };
 		5E79CD2727E39BFF009A6F77 /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		5E79CD2927E39F26009A6F77 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
+		5EC9AC3B27E64C38005555AA /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,9 +76,8 @@
 			children = (
 				5E79CD1827E38B7C009A6F77 /* API Service */,
 				5E79CD1C27E38BFC009A6F77 /* Common */,
-				5E79CD1927E38BD4009A6F77 /* Model */,
-				5E79CD1A27E38BDD009A6F77 /* View */,
-				5E79CD1B27E38BE8009A6F77 /* View Model */,
+				5EC9AC3E27E651B5005555AA /* TopMovies */,
+				5EC9AC3F27E651DC005555AA /* SearchMovies */,
 				5E79CD0D27E38B06009A6F77 /* Assets.xcassets */,
 				5E79CD0F27E38B06009A6F77 /* LaunchScreen.storyboard */,
 				5E79CD1227E38B06009A6F77 /* Info.plist */,
@@ -107,7 +108,6 @@
 			children = (
 				5E79CD0527E38B04009A6F77 /* MoviesViewController.swift */,
 				5E79CD1D27E38E96009A6F77 /* MovieCell.swift */,
-				5E79CD2927E39F26009A6F77 /* ErrorView.swift */,
 				5E4F15F027E530E000282B6F /* SquareLoadingView.swift */,
 			);
 			path = View;
@@ -126,9 +126,52 @@
 			children = (
 				5E79CD0127E38B04009A6F77 /* AppDelegate.swift */,
 				5E79CD0327E38B04009A6F77 /* SceneDelegate.swift */,
-				5E4F15F227E53BF700282B6F /* ViewBuilder.swift */,
+				5E79CD2927E39F26009A6F77 /* ErrorView.swift */,
 			);
 			path = Common;
+			sourceTree = "<group>";
+		};
+		5EC9AC3E27E651B5005555AA /* TopMovies */ = {
+			isa = PBXGroup;
+			children = (
+				5E4F15F227E53BF700282B6F /* ViewBuilder.swift */,
+				5E79CD1927E38BD4009A6F77 /* Model */,
+				5E79CD1A27E38BDD009A6F77 /* View */,
+				5E79CD1B27E38BE8009A6F77 /* View Model */,
+			);
+			path = TopMovies;
+			sourceTree = "<group>";
+		};
+		5EC9AC3F27E651DC005555AA /* SearchMovies */ = {
+			isa = PBXGroup;
+			children = (
+				5EC9AC4027E651F9005555AA /* Model */,
+				5EC9AC4127E65206005555AA /* View */,
+				5EC9AC4327E65221005555AA /* View Model */,
+			);
+			path = SearchMovies;
+			sourceTree = "<group>";
+		};
+		5EC9AC4027E651F9005555AA /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		5EC9AC4127E65206005555AA /* View */ = {
+			isa = PBXGroup;
+			children = (
+				5EC9AC3B27E64C38005555AA /* SearchViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		5EC9AC4327E65221005555AA /* View Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "View Model";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -209,6 +252,7 @@
 				5E79CD2827E39BFF009A6F77 /* Movie.swift in Sources */,
 				5E79CD0227E38B04009A6F77 /* AppDelegate.swift in Sources */,
 				5E79CD0427E38B04009A6F77 /* SceneDelegate.swift in Sources */,
+				5EC9AC3C27E64C38005555AA /* SearchViewController.swift in Sources */,
 				5E4F15F327E53BF700282B6F /* ViewBuilder.swift in Sources */,
 				5E79CD2227E39ABC009A6F77 /* MovieService.swift in Sources */,
 				5E79CD2627E39B90009A6F77 /* MoviePresenterState.swift in Sources */,
