@@ -1,4 +1,5 @@
 import UIKit
+// MARK: Protocols
 protocol MoviesModuleViewInput: AnyObject {
     func update(state: MoviePresenterState)
     func openNew(next: UIViewController)
@@ -13,6 +14,7 @@ protocol MoviesModuleViewOutput: AnyObject {
 }
 
 final class MoviesViewController: UIViewController {
+    // MARK: Properties
     var moviesViewModel: MoviesModuleViewOutput
     private lazy var loadingView = SquareLoadingView()
     private var errorConstraint: NSLayoutConstraint?
@@ -45,6 +47,7 @@ final class MoviesViewController: UIViewController {
         tableView.isHidden = false
     }
 
+    // MARK: init
     init(output: MoviesModuleViewOutput) {
         moviesViewModel = output
         super.init(nibName: nil, bundle: nil)
@@ -55,6 +58,7 @@ final class MoviesViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
+    // MARK: UI Configure
     private func configureUI() {
         view.addSubview(tableView)
         NSLayoutConstraint.activate([
@@ -114,6 +118,7 @@ final class MoviesViewController: UIViewController {
     }
 }
 
+// MARK: MoviesModuleViewInput
 extension MoviesViewController: MoviesModuleViewInput {
     func update(state: MoviePresenterState) {
         switch state {
@@ -138,8 +143,8 @@ extension MoviesViewController: MoviesModuleViewInput {
         present(next, animated: true, completion: nil)
     }
 }
-
-extension MoviesViewController: UITableViewDataSource, UITableViewDelegate {
+// MARK: UITableViewDataSource, UITableViewDataSource
+extension MoviesViewController: UITableViewDataSource, UITableViewDataSource {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if indexPath.row == moviesViewModel.getCount() - 1 {
             moviesViewModel.updateView()

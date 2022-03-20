@@ -1,4 +1,5 @@
 import UIKit
+// MARK: Protocols
 protocol SearchModuleViewInput: AnyObject {
     func update(state: MoviePresenterState)
     func openNew(next: UIViewController)
@@ -13,6 +14,7 @@ protocol SearchModuleViewOutput: AnyObject {
 }
 
 final class SearchViewController: UIViewController {
+    // MARK: Properties
     var moviesViewModel: SearchModuleViewOutput
     private lazy var loadingView = SquareLoadingView()
     private var searchDebouncerTimer: Timer?
@@ -65,7 +67,7 @@ final class SearchViewController: UIViewController {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
-
+    // MARK: Init
     init(output: SearchModuleViewOutput) {
         moviesViewModel = output
         super.init(nibName: nil, bundle: nil)
@@ -82,7 +84,7 @@ final class SearchViewController: UIViewController {
         setupErrorViewConstraints()
         configureUI()
     }
-
+    // MARK: UI Configure
     private func configureUI() {
         view.addSubview(tableView)
         view.addSubview(scrollView)
@@ -110,6 +112,7 @@ final class SearchViewController: UIViewController {
         ])
     }
 
+    // MARK: Set views for UIStackView
     private var tag = 1
     private func setnum() {
         let allViews = stackView.arrangedSubviews
@@ -199,7 +202,7 @@ final class SearchViewController: UIViewController {
         hideError()
     }
 }
-
+// MARK: SearchModuleViewInput
 extension SearchViewController: SearchModuleViewInput {
     func update(state: MoviePresenterState) {
         switch state {
@@ -232,7 +235,7 @@ extension SearchViewController: SearchModuleViewInput {
         present(next, animated: true, completion: nil)
     }
 }
-
+// MARK: UITableViewDataSource, UITableViewDelegate
 extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return moviesViewModel.getCount()
@@ -257,7 +260,7 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
         searchBar.resignFirstResponder()
     }
 }
-
+// MARK: UISearchBarDelegate
 extension SearchViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         searchDebouncerTimer?.invalidate()

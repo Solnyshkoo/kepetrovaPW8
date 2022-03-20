@@ -2,6 +2,7 @@ import Foundation
 import UIKit
 
 final class SearchViewModel {
+    // MARK: Properties
     weak var view: SearchModuleViewInput? {
         didSet {
             view?.update(state: state)
@@ -33,7 +34,7 @@ final class SearchViewModel {
         }
     }
 }
-
+// MARK: SearchModuleViewOutput
 extension SearchViewModel: SearchModuleViewOutput {
     func getCount() -> Int {
         return allMovies.count
@@ -48,7 +49,7 @@ extension SearchViewModel: SearchModuleViewOutput {
     }
 
     func MovieTapped(indexPath: Int) {
-        let detailModule = DetailsViewBuilder(moviesService: moviesService, index: Int(allMovies[indexPath].id) )
+        let detailModule = DetailsViewBuilder(moviesService: moviesService, index: allMovies[indexPath].id)
         view?.openNew(next: detailModule.viewController)
     }
 

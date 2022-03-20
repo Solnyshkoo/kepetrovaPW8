@@ -2,6 +2,7 @@ import Foundation
 
 import UIKit
 final class MoviesViewModel {
+    // MARK: Properties
     weak var view: MoviesModuleViewInput? {
         didSet {
             updateView()
@@ -13,6 +14,7 @@ final class MoviesViewModel {
     static var currentPages = 0
     private var allPages = 1
 
+    // MARK: Init
     required init(moviesService: MovieService) {
         self.moviesService = moviesService
         state = .none
@@ -34,7 +36,7 @@ final class MoviesViewModel {
         }
     }
 }
-
+// MARK: MoviesModuleViewOutput
 extension MoviesViewModel: MoviesModuleViewOutput {
     func getCount() -> Int {
         print(allMovies)
