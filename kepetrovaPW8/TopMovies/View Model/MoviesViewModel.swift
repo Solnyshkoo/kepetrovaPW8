@@ -9,6 +9,8 @@ final class MoviesViewModel {
 
     private let moviesService: MovieService
     private var allMovies: [Movie] = []
+    static var currentPages = 0
+    private var allPages = 1
 
     required init(moviesService: MovieService) {
         self.moviesService = moviesService
@@ -19,7 +21,7 @@ final class MoviesViewModel {
         didSet {
             switch state {
             case .success(let movies):
-                allMovies = movies
+                allMovies.append(contentsOf: movies)
                 view?.update(state: .success(movies))
             case .error(let error):
                 view?.update(state: .error(error))
@@ -42,17 +44,25 @@ extension MoviesViewModel: MoviesModuleViewOutput {
         allMovies[indexPath]
     }
 
+    func isLoadingCell(for indexPath: IndexPath) -> Bool {
+        return indexPath.row >= allMovies.count
+    }
+
     func updateView() {
         state = .loading
-        DispatchQueue.global(qos: .background).async { [weak self] in
-            self?.moviesService.loadMovies(page: 1) { [weak self] result in
-                switch result {
-                case .success(let movies, let page):
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                        self?.state = .success(movies)
+        MoviesViewModel.currentPages += 1
+        if MoviesViewModel.currentPages <= allPages {
+            DispatchQueue.global(qos: .background).async { [weak self] in
+                self?.moviesService.loadMovies(page: MoviesViewModel.currentPages) { [weak self] result in
+                    switch result {
+                    case .success(let movies, let page):
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                            self?.allPages = page
+                            self?.state = .success(movies)
+                        }
+                    case .failure(let error):
+                        self?.state = .error(error)
                     }
-                case .failure(let error):
-                    self?.state = .error(error)
                 }
             }
         }

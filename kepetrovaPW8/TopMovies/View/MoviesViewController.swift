@@ -7,7 +7,8 @@ protocol MoviesModuleViewOutput: AnyObject {
     func getCount() -> Int
     func getDataMovie(indexPath: Int) -> Movie
     func MovieTapped(section: Int)
-    func updateView()
+    func updateView() 
+    func isLoadingCell(for indexPath: IndexPath) -> Bool
 }
 
 final class MoviesViewController: UIViewController {
@@ -39,6 +40,8 @@ final class MoviesViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         setupErrorViewConstraints()
+        configureUI()
+        tableView.isHidden = false
     }
 
     init(output: MoviesModuleViewOutput) {
@@ -117,20 +120,30 @@ extension MoviesViewController: MoviesModuleViewInput {
             setupLoading()
             loadingView.startAnimation()
         case .error:
+            tableView.isHidden = true
             loadingView.stopAnimation()
             DispatchQueue.main.async {
                 self.showError()
             }
         case .success:
             loadingView.stopAnimation()
-            configureUI()
+            tableView.reloadData()
         case .none:
+            tableView.isHidden = true
             break
         }
     }
 }
 
 extension MoviesViewController: UITableViewDataSource, UITableViewDelegate {
+   
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row == moviesViewModel.getCount() - 1 {
+            moviesViewModel.updateView()
+        }
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return moviesViewModel.getCount()
     }

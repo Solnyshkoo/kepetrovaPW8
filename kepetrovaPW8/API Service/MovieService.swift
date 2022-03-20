@@ -7,7 +7,7 @@ enum ObtainPostsResult {
 
 final class MovieService {
     private let apiKey = "536251f247f9fc55b0d3fc56fc43d0e2"
-    
+    private var allPages = 1
     
     func loadMovies(page: Int, _ closure: @escaping (ObtainPostsResult) -> Void) {
         guard let url = URL(string: "https://api.themoviedb.org/3/discover/movie?api_key=\(apiKey)&language=ruRU&page=\(page)") else { return assertionFailure("some problems with url") }
@@ -17,20 +17,21 @@ final class MovieService {
                 let data = data,
                 let post = try? JSONSerialization.jsonObject(with: data, options: .json5Allowed) as? [String: Any],
                 
-                let results = post["results"] as? [[String: Any]]
-                //let pages = post["total_pages"] as? String
+                let results = post["results"] as? [[String: Any]],
+                let pages = post["total_pages"] as? Int
             else {
                
                 result = .failure(error: error!)
                 return
             }
+            
             let movies: [Movie] = results.map { item in
                 let title = item["title"] as? String
                 let imagePath = item["poster_path"] as? String
                 let id = item["id"] as? String
                 return Movie(title: title ?? "", path: imagePath ?? "", id: id ?? "")
             }
-            result = .success(posts: movies, page: Int("6") ?? 1)
+            result = .success(posts: movies, page: Int(pages) )
             let group = DispatchGroup()
             for movie in movies {
                 group.enter()
@@ -42,7 +43,7 @@ final class MovieService {
                 }
             }
             group.notify(queue: .main) {
-                result = .success(posts: movies, page: Int("5") ?? 1)
+                result = .success(posts: movies, page: Int(pages) )
                 closure(result)
             }
         }
