@@ -1,21 +1,26 @@
 import Foundation
 import UIKit
 enum ObtainPostsResult {
-    case success(posts: [Movie])
+    case success(posts: [Movie], page: Int)
     case failure(error: Error)
 }
 
 final class MovieService {
     private let apiKey = "536251f247f9fc55b0d3fc56fc43d0e2"
-    func loadMovies(_ closure: @escaping (ObtainPostsResult) -> Void) {
-        guard let url = URL(string: "https://api.themoviedb.org/3/discover/movie?api_key=\(apiKey)&language=ruRU") else { return assertionFailure("some problems with url") }
+    
+    
+    func loadMovies(page: Int, _ closure: @escaping (ObtainPostsResult) -> Void) {
+        guard let url = URL(string: "https://api.themoviedb.org/3/discover/movie?api_key=\(apiKey)&language=ruRU&page=\(page)") else { return assertionFailure("some problems with url") }
         let session = URLSession.shared.dataTask(with: url) { data, _, error in
             var result: ObtainPostsResult
             guard
                 let data = data,
                 let post = try? JSONSerialization.jsonObject(with: data, options: .json5Allowed) as? [String: Any],
+                
                 let results = post["results"] as? [[String: Any]]
+                //let pages = post["total_pages"] as? String
             else {
+               
                 result = .failure(error: error!)
                 return
             }
@@ -25,7 +30,7 @@ final class MovieService {
                 let id = item["id"] as? String
                 return Movie(title: title ?? "", path: imagePath ?? "", id: id ?? "")
             }
-            result = .success(posts: movies)
+            result = .success(posts: movies, page: Int("6") ?? 1)
             let group = DispatchGroup()
             for movie in movies {
                 group.enter()
@@ -37,21 +42,23 @@ final class MovieService {
                 }
             }
             group.notify(queue: .main) {
-                result = .success(posts: movies)
+                result = .success(posts: movies, page: Int("5") ?? 1)
                 closure(result)
             }
         }
         session.resume()
     }
 
-    func searchMovies(text: String, _ closure: @escaping (ObtainPostsResult) -> Void) {
-        guard let url = URL(string: "https://api.themoviedb.org/3/search/movie?api_key=\(apiKey)&language=en-US&query=\(text)") else { return assertionFailure("some problems with url") }
+    func searchMovies(page: Int, text: String, _ closure: @escaping (ObtainPostsResult) -> Void) {
+        
+        guard let url = URL(string: "https://api.themoviedb.org/3/search/movie?api_key=\(apiKey)&language=en-US&query=\(text)&page=\(page)") else { return assertionFailure("some problems with url") }
         let session = URLSession.shared.dataTask(with: url) { data, _, error in
             var result: ObtainPostsResult
             guard
                 let data = data,
                 let post = try? JSONSerialization.jsonObject(with: data, options: .json5Allowed) as? [String: Any],
-                let results = post["results"] as? [[String: Any]]
+                let results = post["results"] as? [[String: Any]],
+                let pages = post["total_pages"] as? Int
             else {
                 result = .failure(error: error!)
                 return
@@ -62,7 +69,7 @@ final class MovieService {
                 let id = item["id"] as? String
                 return Movie(title: title ?? "", path: imagePath ?? "", id: id ?? "")
             }
-            result = .success(posts: movies)
+            result = .success(posts: movies, page: pages)
             let group = DispatchGroup()
             for movie in movies {
                 group.enter()
@@ -74,7 +81,7 @@ final class MovieService {
                 }
             }
             group.notify(queue: .main) {
-                result = .success(posts: movies)
+                result = .success(posts: movies, page: pages)
                 closure(result)
             }
             print(movies)

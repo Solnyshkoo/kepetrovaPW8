@@ -45,9 +45,9 @@ extension MoviesViewModel: MoviesModuleViewOutput {
     func updateView() {
         state = .loading
         DispatchQueue.global(qos: .background).async { [weak self] in
-            self?.moviesService.loadMovies { [weak self] result in
+            self?.moviesService.loadMovies(page: 1) { [weak self] result in
                 switch result {
-                case .success(let movies):
+                case .success(let movies, let page):
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                         self?.state = .success(movies)
                     }

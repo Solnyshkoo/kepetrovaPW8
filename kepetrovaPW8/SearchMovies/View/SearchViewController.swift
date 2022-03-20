@@ -7,7 +7,8 @@ protocol SearchModuleViewOutput: AnyObject {
     func getCount() -> Int
     func getDataMovie(indexPath: Int) -> Movie
     func MovieTapped(section: Int)
-    func search(_ name: String)
+    func search(index: Int, _ name: String)
+    func getPages() -> Int
 }
 
 final class SearchViewController: UIViewController {
@@ -49,7 +50,29 @@ final class SearchViewController: UIViewController {
         searchBar.showsCancelButton = false
         return searchBar
     }()
+    
+    private lazy var scrollView: UIScrollView = {
+      let scrollView = UIScrollView()
+      scrollView.backgroundColor = .red
+      scrollView.translatesAutoresizingMaskIntoConstraints = false
+      return scrollView
+    }()
+    
+    private lazy var stackView: UIStackView = {
+      let stackView = UIStackView()
+        stackView.axis = .horizontal
+      
+      stackView.translatesAutoresizingMaskIntoConstraints = false
+      return stackView
+    }()
 
+    private lazy var contentView: UIView = {
+      let contentView = UIView()
+      contentView.backgroundColor = .green
+      contentView.translatesAutoresizingMaskIntoConstraints = false
+      return contentView
+    }()
+    
     init(output: SearchModuleViewOutput) {
         moviesViewModel = output
         super.init(nibName: nil, bundle: nil)
@@ -69,18 +92,59 @@ final class SearchViewController: UIViewController {
 
     private func configureUI() {
         view.addSubview(tableView)
+        view.addSubview(scrollView)
+        scrollView.addSubview(stackView)
+        
         NSLayoutConstraint.activate([
             searchBar.topAnchor.constraint(equalTo: errorView.bottomAnchor),
             searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             searchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.heightAnchor.constraint(equalToConstant: 50),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
 
             tableView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 20),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            tableView.bottomAnchor.constraint(equalTo: scrollView.topAnchor),
+            
+            stackView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            stackView.rightAnchor.constraint(equalTo: scrollView.rightAnchor),
+            stackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            stackView.leftAnchor.constraint(equalTo: scrollView.leftAnchor)
+
         ])
     }
+    
+    private func setnum() {
+    
+        for i in 1...moviesViewModel.getPages() {
+            let viewc = UIButton()
+            viewc.backgroundColor = .blue
+            viewc.setTitle(String(i), for: .normal)
+          
+            viewc.setTitleColor(.white, for: .normal)
+            viewc.tag = i
+            viewc.addTarget(self, action: #selector(loadMore(sender:)), for: .touchUpInside)
+            
+            stackView.addArrangedSubview(viewc)
+        }
+        for view in stackView.arrangedSubviews {
+            NSLayoutConstraint.activate([
+              view.widthAnchor.constraint(equalToConstant: 40),
+              view.heightAnchor.constraint(equalToConstant: 40)
+            ])
+        }
+    }
 
+    @objc
+    private func loadMore(sender: UIButton) {
+        
+        moviesViewModel.search(index: sender.tag, searchBar.text ?? "")
+    }
+    
     private func setupLoading() {
         view.addSubview(loadingView)
         loadingView.center = view.center
@@ -139,19 +203,25 @@ extension SearchViewController: SearchModuleViewInput {
         case .loading:
             setupLoading()
             tableView.isHidden = true
+            scrollView.isHidden = true
             loadingView.startAnimation()
         case .error:
             tableView.isHidden = true
+            scrollView.isHidden = true
             loadingView.stopAnimation()
             DispatchQueue.main.async {
                 self.showError()
             }
         case .success:
             loadingView.stopAnimation()
+            setnum()
             tableView.reloadData()
+            scrollView.reloadInputViews()
             tableView.isHidden = false
+            scrollView.isHidden = false
         case .none:
             tableView.isHidden = true
+            scrollView.isHidden = true
         }
     }
 }
@@ -197,7 +267,7 @@ extension SearchViewController: UISearchBarDelegate {
 
     private func fireTimer() {
         if !(searchBar.text?.isEmpty ?? true) {
-            moviesViewModel.search(searchBar.text ?? "")
+            moviesViewModel.search(index: 1, searchBar.text ?? "")
         }
     }
 }

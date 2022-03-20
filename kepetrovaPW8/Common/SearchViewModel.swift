@@ -10,6 +10,7 @@ final class SearchViewModel {
 
     private let moviesService: MovieService
     private var allMovies: [Movie] = []
+    private var pages: Int = 1
 
     required init(moviesService: MovieService) {
         self.moviesService = moviesService
@@ -42,18 +43,25 @@ extension SearchViewModel: SearchModuleViewOutput {
     func getDataMovie(indexPath: Int) -> Movie {
         allMovies[indexPath]
     }
+    
+    func getPages() -> Int {
+        print(pages)
+        return pages
+    }
 
     func MovieTapped(section: Int) {}
 
-    func search(_ name: String) {
+    func search(index: Int, _ name: String) {
         if !name.isEmpty {
             let text = name.replacingOccurrences(of: " ", with: "%20")
             state = .loading
             DispatchQueue.global(qos: .background).async { [weak self] in
-                self?.moviesService.searchMovies(text: text) { [weak self] result in
+                self?.moviesService.searchMovies(page: index, text: text) { [weak self] result in
                     switch result {
-                    case .success(let movies):
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    case .success(let movies, let pages):
+                        DispatchQueue.main.async {
+                            self?.pages = pages
+
                             self?.state = .success(movies)
                         }
                     case .failure(let error):
