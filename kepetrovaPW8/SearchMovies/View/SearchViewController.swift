@@ -53,7 +53,7 @@ final class SearchViewController: UIViewController {
     
     private lazy var scrollView: UIScrollView = {
       let scrollView = UIScrollView()
-      scrollView.backgroundColor = .red
+        scrollView.backgroundColor = .systemGray3
       scrollView.translatesAutoresizingMaskIntoConstraints = false
       return scrollView
     }()
@@ -61,16 +61,8 @@ final class SearchViewController: UIViewController {
     private lazy var stackView: UIStackView = {
       let stackView = UIStackView()
         stackView.axis = .horizontal
-      
       stackView.translatesAutoresizingMaskIntoConstraints = false
       return stackView
-    }()
-
-    private lazy var contentView: UIView = {
-      let contentView = UIView()
-      contentView.backgroundColor = .green
-      contentView.translatesAutoresizingMaskIntoConstraints = false
-      return contentView
     }()
     
     init(output: SearchModuleViewOutput) {
@@ -94,7 +86,6 @@ final class SearchViewController: UIViewController {
         view.addSubview(tableView)
         view.addSubview(scrollView)
         scrollView.addSubview(stackView)
-        
         NSLayoutConstraint.activate([
             searchBar.topAnchor.constraint(equalTo: errorView.bottomAnchor),
             searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -117,20 +108,29 @@ final class SearchViewController: UIViewController {
 
         ])
     }
-    
+    private var tag = 1
     private func setnum() {
-    
+        let allViews = stackView.arrangedSubviews
+        for item in allViews {
+            stackView.removeArrangedSubview(item)
+        }
+        
         for i in 1...moviesViewModel.getPages() {
             let viewc = UIButton()
-            viewc.backgroundColor = .blue
+            viewc.backgroundColor = .systemGray3
             viewc.setTitle(String(i), for: .normal)
           
             viewc.setTitleColor(.white, for: .normal)
             viewc.tag = i
             viewc.addTarget(self, action: #selector(loadMore(sender:)), for: .touchUpInside)
             
+            if tag == viewc.tag {
+                viewc.backgroundColor = .systemMint
+            }
+            
             stackView.addArrangedSubview(viewc)
         }
+        print(tag)
         for view in stackView.arrangedSubviews {
             NSLayoutConstraint.activate([
               view.widthAnchor.constraint(equalToConstant: 40),
@@ -141,7 +141,8 @@ final class SearchViewController: UIViewController {
 
     @objc
     private func loadMore(sender: UIButton) {
-        
+        tag = sender.tag
+        print(tag)
         moviesViewModel.search(index: sender.tag, searchBar.text ?? "")
     }
     
