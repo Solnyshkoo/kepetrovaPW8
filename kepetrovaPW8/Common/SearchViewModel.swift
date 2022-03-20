@@ -48,7 +48,7 @@ extension SearchViewModel: SearchModuleViewOutput {
     }
 
     func MovieTapped(indexPath: Int) {
-        let detailModule = DetailsViewBuilder(moviesService: moviesService, index: Int(allMovies[indexPath].id) ?? 0)
+        let detailModule = DetailsViewBuilder(moviesService: moviesService, index: Int(allMovies[indexPath].id) )
         view?.openNew(next: detailModule.viewController)
     }
 
@@ -62,7 +62,6 @@ extension SearchViewModel: SearchModuleViewOutput {
                     case .success(let movies, let pages):
                         DispatchQueue.main.async {
                             self?.pages = pages
-
                             self?.state = .success(movies)
                         }
                     case .failure(let error):
