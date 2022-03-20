@@ -40,7 +40,7 @@ final class DetailsMovieViewModel {
     }
     
     private func convert(data: Details) -> DetailsPresenter {
-        return DetailsPresenter(adult: data.adult, budget: data.budget, genres: data.genres[0].name, id: data.id, originalTitle: data.originalTitle, overview: data.overview, image: loadImage(url: URL(string: data.posterPath)!), productionCompanies: data.productionCompanies[0].originCountry, productionCountries: data.productionCountries[0].name, releaseDate: data.releaseDate, spokenLanguages: createArray(array: data.spokenLanguages), status: data.status, voteAverage: data.voteAverage, voteCount: data.voteCount)
+        return DetailsPresenter(adult: data.adult, budget: data.budget, genres: data.genres[0].name, id: data.id, originalTitle: data.originalTitle, overview: data.overview, image: loadImage(url: URL(string: data.posterPath)!), productionCompanies: data.productionCompanies[0].originCountry, productionCountries: data.productionCountries[0].name, releaseDate: data.releaseDate, spokenLanguages: createString(array: data.spokenLanguages), status: data.status, voteAverage: data.voteAverage, voteCount: data.voteCount)
     }
     
     func loadImage(url: URL) -> UIImage? {
@@ -48,11 +48,13 @@ final class DetailsMovieViewModel {
         return UIImage(data: data)
     }
     
-    func createArray(array: [SpokenLanguage]) -> [String] {
-        var k: [String] = []
-        for i in array {
-            k.append(i.englishName)
+    func createString(array: [SpokenLanguage]) -> String {
+        var k: String = ""
+        for i in 0..<array.count - 1 {
+            k += array[i].englishName
+            k += ", "
         }
+        k += array[array.count - 1].englishName
         return k
     }
 }

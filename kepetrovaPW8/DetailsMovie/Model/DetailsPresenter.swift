@@ -18,7 +18,7 @@ struct DetailsPresenter  {
     var productionCompanies: String = ""
     var productionCountries: String = ""
     var releaseDate: String = ""
-    var spokenLanguages: [String] = []
+    var spokenLanguages: String = ""
     var status: String = ""
     var voteAverage: Double = -1
     var voteCount: Int = -1
