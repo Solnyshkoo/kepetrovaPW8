@@ -1,4 +1,5 @@
 import Foundation
+
 import UIKit
 final class MoviesViewModel {
     weak var view: MoviesModuleViewInput? {
@@ -68,5 +69,8 @@ extension MoviesViewModel: MoviesModuleViewOutput {
         }
     }
 
-    func MovieTapped(section: Int) {}
+    func MovieTapped(indexPath: Int) {
+        let detailModule = DetailsViewBuilder(moviesService: moviesService)
+        view?.openNew(next: detailModule.viewController)
+    }
 }

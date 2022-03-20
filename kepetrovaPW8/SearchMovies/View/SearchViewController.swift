@@ -1,12 +1,13 @@
 import UIKit
 protocol SearchModuleViewInput: AnyObject {
     func update(state: MoviePresenterState)
+    func openNew(next: UIViewController)
 }
 
 protocol SearchModuleViewOutput: AnyObject {
     func getCount() -> Int
     func getDataMovie(indexPath: Int) -> Movie
-    func MovieTapped(section: Int)
+    func MovieTapped(indexPath: Int)
     func search(index: Int, _ name: String)
     func getPages() -> Int
 }
@@ -225,6 +226,9 @@ extension SearchViewController: SearchModuleViewInput {
             scrollView.isHidden = true
         }
     }
+    func openNew(next: UIViewController) {
+        self.present(next, animated: true,completion: nil)
+    }
 }
 
 extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
@@ -244,7 +248,7 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
+        moviesViewModel.MovieTapped(indexPath: indexPath.row)
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

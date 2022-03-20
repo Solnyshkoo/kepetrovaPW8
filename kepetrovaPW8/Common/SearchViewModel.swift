@@ -49,7 +49,10 @@ extension SearchViewModel: SearchModuleViewOutput {
         return pages
     }
 
-    func MovieTapped(section: Int) {}
+    func MovieTapped(indexPath: Int) {
+        let detailModule = DetailsViewBuilder(moviesService: moviesService)
+        view?.openNew(next: detailModule.viewController)
+    }
 
     func search(index: Int, _ name: String) {
         if !name.isEmpty {

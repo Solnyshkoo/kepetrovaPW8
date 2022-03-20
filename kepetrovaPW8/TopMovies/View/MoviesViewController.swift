@@ -1,12 +1,13 @@
 import UIKit
 protocol MoviesModuleViewInput: AnyObject {
     func update(state: MoviePresenterState)
+    func openNew(next: UIViewController)
 }
 
 protocol MoviesModuleViewOutput: AnyObject {
     func getCount() -> Int
     func getDataMovie(indexPath: Int) -> Movie
-    func MovieTapped(section: Int)
+    func MovieTapped(indexPath: Int)
     func updateView() 
     func isLoadingCell(for indexPath: IndexPath) -> Bool
 }
@@ -133,10 +134,13 @@ extension MoviesViewController: MoviesModuleViewInput {
             break
         }
     }
+    
+    func openNew(next: UIViewController) {
+        self.present(next, animated: true,completion: nil)
+    }
 }
 
 extension MoviesViewController: UITableViewDataSource, UITableViewDelegate {
-   
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if indexPath.row == moviesViewModel.getCount() - 1 {
@@ -160,6 +164,7 @@ extension MoviesViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
+        moviesViewModel.MovieTapped(indexPath: indexPath.row)
+    
     }
 }
