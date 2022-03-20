@@ -36,7 +36,6 @@ final class SearchViewModel {
 
 extension SearchViewModel: SearchModuleViewOutput {
     func getCount() -> Int {
-        print(allMovies)
         return allMovies.count
     }
 
@@ -45,12 +44,11 @@ extension SearchViewModel: SearchModuleViewOutput {
     }
     
     func getPages() -> Int {
-        print(pages)
         return pages
     }
 
     func MovieTapped(indexPath: Int) {
-        let detailModule = DetailsViewBuilder(moviesService: moviesService)
+        let detailModule = DetailsViewBuilder(moviesService: moviesService, index: Int(allMovies[indexPath].id) ?? 0)
         view?.openNew(next: detailModule.viewController)
     }
 

@@ -226,6 +226,7 @@ extension SearchViewController: SearchModuleViewInput {
             scrollView.isHidden = true
         }
     }
+    
     func openNew(next: UIViewController) {
         self.present(next, animated: true,completion: nil)
     }

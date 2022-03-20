@@ -70,7 +70,8 @@ extension MoviesViewModel: MoviesModuleViewOutput {
     }
 
     func MovieTapped(indexPath: Int) {
-        let detailModule = DetailsViewBuilder(moviesService: moviesService)
+        let detailModule = DetailsViewBuilder(moviesService: moviesService, index:  allMovies[indexPath].id)
+        print(allMovies[indexPath].id)
         view?.openNew(next: detailModule.viewController)
     }
 }
