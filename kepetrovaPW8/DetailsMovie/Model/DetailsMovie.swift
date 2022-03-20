@@ -1,12 +1,8 @@
-// This file was generated from JSON Schema using quicktype, do not modify it directly.
-// To parse the JSON, add this file to your project and do:
-//
-//   let details = try? newJSONDecoder().decode(Details.self, from: jsonData)
-
 import Foundation
 import UIKit
 
 // MARK: - Details
+
 struct Details: Codable {
     let adult: Bool
     let budget: Int
@@ -39,11 +35,13 @@ struct Details: Codable {
 }
 
 // MARK: - Genre
+
 struct Genre: Codable {
     let name: String
 }
 
 // MARK: - ProductionCompany
+
 struct ProductionCompany: Codable {
     let name, originCountry: String
 
@@ -54,6 +52,7 @@ struct ProductionCompany: Codable {
 }
 
 // MARK: - ProductionCountry
+
 struct ProductionCountry: Codable {
     let name: String
 
@@ -63,6 +62,7 @@ struct ProductionCountry: Codable {
 }
 
 // MARK: - SpokenLanguage
+
 struct SpokenLanguage: Codable {
     let englishName: String
 
@@ -70,5 +70,3 @@ struct SpokenLanguage: Codable {
         case englishName = "english_name"
     }
 }
-
-

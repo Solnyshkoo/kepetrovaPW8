@@ -1,10 +1,3 @@
-//
-//  DetailsMoviewView.swift
-//  kepetrovaPW8
-//
-//  Created by Ksenia Petrova on 20.03.2022.
-//
-
 import Foundation
 import UIKit
 final class DetailsMoviewView: UIView {
@@ -44,6 +37,7 @@ final class DetailsMoviewView: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
+
     private lazy var voteAverage: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 15, weight: .bold)
@@ -61,6 +55,7 @@ final class DetailsMoviewView: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
+
     private lazy var status: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 15, weight: .bold)
@@ -69,6 +64,7 @@ final class DetailsMoviewView: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
+
     private lazy var adult: UILabel = {
         let label = UILabel()
         label.backgroundColor = .systemMint
@@ -107,16 +103,15 @@ final class DetailsMoviewView: UIView {
     }
 
     private func configureUI() {
-        addSubview(overview) //
-        addSubview(title) //
-        addSubview(adult) //
-        addSubview(spokenLanguages) //
+        addSubview(overview)
+        addSubview(title)
+        addSubview(adult)
+        addSubview(spokenLanguages)
         addSubview(productionCountries)
-        addSubview(voteAverage) //
-        addSubview(genre) //
-        addSubview(status)//
+        addSubview(voteAverage)
+        addSubview(genre)
+        addSubview(status)
        
-        
         NSLayoutConstraint.activate([
             title.leadingAnchor.constraint(equalTo: leadingAnchor),
             title.topAnchor.constraint(equalTo: topAnchor),
@@ -152,25 +147,10 @@ final class DetailsMoviewView: UIView {
             productionCountries.topAnchor.constraint(equalTo: spokenLanguages.bottomAnchor),
             productionCountries.heightAnchor.constraint(equalToConstant: 40),
             
-            
             overview.topAnchor.constraint(equalTo: productionCountries.bottomAnchor),
             overview.leadingAnchor.constraint(equalTo: leadingAnchor),
             overview.trailingAnchor.constraint(equalTo: trailingAnchor),
             overview.heightAnchor.constraint(equalToConstant: 400)
         ])
     }
-//    private lazy var title: UILabel = {
-//        let label = UILabel()
-//        label.font = UIFont.systemFont(ofSize: 17, weight: .bold)
-//        label.textAlignment = .center
-//        label.translatesAutoresizingMaskIntoConstraints = false
-//        return label
-//    }()
-//    private lazy var title: UILabel = {
-//        let label = UILabel()
-//        label.font = UIFont.systemFont(ofSize: 17, weight: .bold)
-//        label.textAlignment = .center
-//        label.translatesAutoresizingMaskIntoConstraints = false
-//        return label
-//    }()
 }

@@ -1,9 +1,3 @@
-//
-//  DetailsMovieViewModel.swift
-//  kepetrovaPW8
-//
-//  Created by Ksenia Petrova on 20.03.2022.
-//
 import Foundation
 import UIKit
 final class DetailsMovieViewModel {
@@ -49,8 +43,8 @@ final class DetailsMovieViewModel {
     }
     
     func createString(array: [SpokenLanguage]) -> String {
-        var k: String = ""
-        for i in 0..<array.count - 1 {
+        var k = ""
+        for i in 0 ..< array.count - 1 {
             k += array[i].englishName
             k += ", "
         }

@@ -8,7 +8,7 @@ protocol MoviesModuleViewOutput: AnyObject {
     func getCount() -> Int
     func getDataMovie(indexPath: Int) -> Movie
     func MovieTapped(indexPath: Int)
-    func updateView() 
+    func updateView()
     func isLoadingCell(for indexPath: IndexPath) -> Bool
 }
 
@@ -131,23 +131,21 @@ extension MoviesViewController: MoviesModuleViewInput {
             tableView.reloadData()
         case .none:
             tableView.isHidden = true
-            break
         }
     }
-    
+
     func openNew(next: UIViewController) {
-        self.present(next, animated: true,completion: nil)
+        present(next, animated: true, completion: nil)
     }
 }
 
 extension MoviesViewController: UITableViewDataSource, UITableViewDelegate {
-    
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if indexPath.row == moviesViewModel.getCount() - 1 {
             moviesViewModel.updateView()
         }
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return moviesViewModel.getCount()
     }
@@ -165,6 +163,5 @@ extension MoviesViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         moviesViewModel.MovieTapped(indexPath: indexPath.row)
-    
     }
 }

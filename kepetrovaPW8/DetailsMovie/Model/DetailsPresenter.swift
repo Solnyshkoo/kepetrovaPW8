@@ -1,13 +1,6 @@
-//
-//  DetailsPresenter.swift
-//  kepetrovaPW8
-//
-//  Created by Ksenia Petrova on 20.03.2022.
-//
-
 import Foundation
 import UIKit
-struct DetailsPresenter  {
+struct DetailsPresenter {
     var adult: Bool?
     var budget: Int = -1
     var genres: String = ""
@@ -22,7 +15,4 @@ struct DetailsPresenter  {
     var status: String = ""
     var voteAverage: Double = -1
     var voteCount: Int = -1
-    
-    
-        
 }

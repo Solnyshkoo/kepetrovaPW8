@@ -51,21 +51,21 @@ final class SearchViewController: UIViewController {
         searchBar.showsCancelButton = false
         return searchBar
     }()
-    
+
     private lazy var scrollView: UIScrollView = {
-      let scrollView = UIScrollView()
+        let scrollView = UIScrollView()
         scrollView.backgroundColor = .systemGray3
-      scrollView.translatesAutoresizingMaskIntoConstraints = false
-      return scrollView
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
     }()
-    
+
     private lazy var stackView: UIStackView = {
-      let stackView = UIStackView()
+        let stackView = UIStackView()
         stackView.axis = .horizontal
-      stackView.translatesAutoresizingMaskIntoConstraints = false
-      return stackView
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
     }()
-    
+
     init(output: SearchModuleViewOutput) {
         moviesViewModel = output
         super.init(nibName: nil, bundle: nil)
@@ -91,7 +91,7 @@ final class SearchViewController: UIViewController {
             searchBar.topAnchor.constraint(equalTo: errorView.bottomAnchor),
             searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             searchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            
+
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             scrollView.heightAnchor.constraint(equalToConstant: 50),
@@ -101,7 +101,7 @@ final class SearchViewController: UIViewController {
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: scrollView.topAnchor),
-            
+
             stackView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             stackView.rightAnchor.constraint(equalTo: scrollView.rightAnchor),
             stackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
@@ -109,33 +109,34 @@ final class SearchViewController: UIViewController {
 
         ])
     }
+
     private var tag = 1
     private func setnum() {
         let allViews = stackView.arrangedSubviews
         for item in allViews {
             stackView.removeArrangedSubview(item)
         }
-        
-        for i in 1...moviesViewModel.getPages() {
+
+        for i in 1 ... moviesViewModel.getPages() {
             let viewc = UIButton()
             viewc.backgroundColor = .systemGray3
             viewc.setTitle(String(i), for: .normal)
-          
+
             viewc.setTitleColor(.white, for: .normal)
             viewc.tag = i
             viewc.addTarget(self, action: #selector(loadMore(sender:)), for: .touchUpInside)
-            
+
             if tag == viewc.tag {
                 viewc.backgroundColor = .systemMint
             }
-            
+
             stackView.addArrangedSubview(viewc)
         }
         print(tag)
         for view in stackView.arrangedSubviews {
             NSLayoutConstraint.activate([
-              view.widthAnchor.constraint(equalToConstant: 40),
-              view.heightAnchor.constraint(equalToConstant: 40)
+                view.widthAnchor.constraint(equalToConstant: 40),
+                view.heightAnchor.constraint(equalToConstant: 40)
             ])
         }
     }
@@ -146,7 +147,7 @@ final class SearchViewController: UIViewController {
         print(tag)
         moviesViewModel.search(index: sender.tag, searchBar.text ?? "")
     }
-    
+
     private func setupLoading() {
         view.addSubview(loadingView)
         loadingView.center = view.center
@@ -226,9 +227,9 @@ extension SearchViewController: SearchModuleViewInput {
             scrollView.isHidden = true
         }
     }
-    
+
     func openNew(next: UIViewController) {
-        self.present(next, animated: true,completion: nil)
+        present(next, animated: true, completion: nil)
     }
 }
 

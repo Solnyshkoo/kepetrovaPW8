@@ -42,7 +42,7 @@ extension SearchViewModel: SearchModuleViewOutput {
     func getDataMovie(indexPath: Int) -> Movie {
         allMovies[indexPath]
     }
-    
+
     func getPages() -> Int {
         return pages
     }
