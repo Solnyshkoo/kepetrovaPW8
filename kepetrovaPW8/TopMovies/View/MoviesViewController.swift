@@ -143,8 +143,8 @@ extension MoviesViewController: MoviesModuleViewInput {
         present(next, animated: true, completion: nil)
     }
 }
-// MARK: UITableViewDataSource, UITableViewDataSource
-extension MoviesViewController: UITableViewDataSource, UITableViewDataSource {
+// MARK: UITableViewDataSource, UITableViewDelegate
+extension MoviesViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if indexPath.row == moviesViewModel.getCount() - 1 {
             moviesViewModel.updateView()
